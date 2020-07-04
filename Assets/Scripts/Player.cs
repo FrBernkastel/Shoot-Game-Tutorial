@@ -4,46 +4,43 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // global parameter
-    private float _screenRatio = 16f / 9;
-    private float _screenWidth;
-    private float _screenHeight;
-
     // player's parameter
-    private float _speed = 30f;  // c sharp cannot do conversion automatically
-    private float _slowSpeed = 10f;
+    [SerializeField]
+    private float _speed = 15;  // c sharp cannot do conversion automatically
+    [SerializeField]
+    private float _slowSpeed = 5f;
+    [SerializeField]
+    private int _fireRate = 5;
+    [SerializeField]
+    private float _coolTime = 0.1f;
+    private float _canfire = 0.0f;
 
     // Cached input
     private float _prevHorizontalInput;
     private float _prevVerticalInput;
 
-    // states
-    private bool isShoot = false;
-    private bool isSlowMove = false;
+    // player's components
+    [SerializeField]
+    private GameObject _laserPrefab;
 
     void Start()
     {
         // init the current position = new position (0, 0, 0)
         transform.position = new Vector3(0, 0, 0);
-        // init the screen size
-        _screenWidth = -Camera.main.transform.position.z;
-        _screenHeight = -Camera.main.transform.position.z / _screenRatio;
-}
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Z)) {
+        if (Input.GetKey(KeyCode.Z) && Time.time > _canfire) {
+            _canfire = Time.time + _coolTime;
             Shoot();
         }
-        float sp = _speed;
 
+        float sp = _speed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sp = _slowSpeed;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift)) {
-            sp = _speed;
         }
         
         CalculateMovement(sp);
@@ -77,13 +74,18 @@ public class Player : MonoBehaviour
     void BoundaryCheck()
     {
         transform.position = new Vector3(
-            Mathf.Clamp(transform.position.x, -_screenWidth, _screenWidth),
-            Mathf.Clamp(transform.position.y, -_screenHeight, _screenHeight),
+            Mathf.Clamp(transform.position.x, -GlobleMono.screenWidth, GlobleMono.screenWidth),
+            Mathf.Clamp(transform.position.y, -GlobleMono.screenHeight, GlobleMono.screenHeight),
             0
         );
     }
 
-    void Shoot() {
+    void Shoot()
+    {
+        for (int i = - _fireRate / 2; i <= _fireRate / 2; i++)
+        {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0.3f * i, 0.7f, 0), Quaternion.identity);
 
+        }
     }
 }
