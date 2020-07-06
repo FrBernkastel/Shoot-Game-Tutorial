@@ -10,6 +10,9 @@ public class GlobleMono : MonoBehaviour
     public static float screenWidth = -Camera.main.transform.position.z;
     public static float screenHeight = -Camera.main.transform.position.z / screenRatio;
 
+    // game state
+    public static bool isDead = false;
+
     void Start()
     {
         

@@ -31,19 +31,18 @@ public class Enemy : MonoBehaviour
         // if other is Player: destory us and damage the player
         if (other.tag == "Player")  // get the object by tag
         {
-            Damage();
+            Player player = other.transform.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Damaged();
+            }
             Destroy(this.gameObject);
         }
         if (other.tag == "Laser")
-        {
+        { 
             // if other is Laser: destory us and destory laser
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
-    }
-
-    void Damage()
-    {
-
     }
 }

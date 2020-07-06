@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // Cached input
+    private float _prevHorizontalInput;
+    private float _prevVerticalInput;
+
     // player's parameter
     [SerializeField]
-    private float _speed = 15;  // c sharp cannot do conversion automatically
+    private float _speed = 15;  
     [SerializeField]
     private float _slowSpeed = 5f;
     [SerializeField]
@@ -15,13 +19,13 @@ public class Player : MonoBehaviour
     private float _coolTime = 0.1f;
     private float _canfire = 0.0f;
 
-    // Cached input
-    private float _prevHorizontalInput;
-    private float _prevVerticalInput;
+    // player's state
+    private int _lives = 3;
 
     // player's components
     [SerializeField]
     private GameObject _laserPrefab;
+
 
     void Start()
     {
@@ -87,5 +91,21 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + new Vector3(0.3f * i, 0.7f, 0), Quaternion.identity);
 
         }
+    }
+
+    public void Damaged()
+    {
+        // behaviour when the player get damaged
+        _lives -= 1;
+        Debug.Log("The left live: " + _lives);
+        if (_lives < 0)
+        {
+            Die();
+        }
+    }
+
+    void Die() {
+        // behaviour when the player is dead
+        Destroy(this.gameObject);
     }
 }
