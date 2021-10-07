@@ -107,5 +107,6 @@ public class Player : MonoBehaviour
     void Die() {
         // behaviour when the player is dead
         Destroy(this.gameObject);
+        GlobleMono.isDead = true;
     }
 }

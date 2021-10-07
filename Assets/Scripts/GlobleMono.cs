@@ -21,6 +21,6 @@ public class GlobleMono : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
