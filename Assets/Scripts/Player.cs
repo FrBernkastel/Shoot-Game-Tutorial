@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
     {
         for (int i = - _fireRate / 2; i <= _fireRate / 2; i++)
         {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0.3f * i, 0.7f, 0), Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0.3f * i, 1.0f, 0), Quaternion.identity);
 
         }
     }
